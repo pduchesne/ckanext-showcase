@@ -206,9 +206,13 @@ class ShowcasePlugin(
         `showcase`.
         '''
         fq = search_params.get('fq', '')
-        filter = 'dataset_type:{0}'.format(DATASET_TYPE_NAME)
-        if filter not in fq:
-            search_params.update({'fq': fq + " -" + filter})
+        fq_list = search_params.get('fq_list', [])
+        filter = '+dataset_type:{0}'.format(DATASET_TYPE_NAME)
+
+        if filter not in fq and filter not in fq_list:
+            fq_list.append(filter)
+            search_params['fq_list'] = fq_list
+
         return search_params
 
     # ITranslation
